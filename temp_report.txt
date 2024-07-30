@@ -4,7 +4,7 @@ In the world wide web and the modern world today, there are a huge applications 
 
 In this report, we introduce the utility-driven pattern mining and analyze deeply into high-utility data mining from a transaction database.  Simply, utility mining algorithms will exploit and solve all qualified patterns which satisfy a given minimum utility threshold.  But the big problem from these algorithms, a big number of qualified results is not interpretable and not easy to understand. Moreover, users have to spend much of time to find the minimum utility threshold from even hundred thousands values. Top-k high-utility itemset mining has been studied to give a solution to the tough issue. 
 
-Our presentation is that we show an efficient algorithm name TopHUI which find out Top-K high utility itemsets from transaction database and utilize both negative and positive transactional values, an algorithm actually demonstrates the accurate top k highest utilities from huge results. We also give and try the positive and negative utility list (PNU-list) to store positive, negative and remaining utility. Some threshold raising strategies and pruning strategies are tried to reduce the space of data. In the last part, we conduct some experiments on both real-life and synthetic datasets and compare the effectiveness and efficiency of algorithms.   
+Our presentation is that we show an efficient algorithm name TopHUI for finding Top-K high utility itemsets from transaction database and utilize both negative and positive transactional values, an algorithm actually demonstrates the accurate top k highest utilities from huge results. We also give and try the positive and negative utility list (PNU-list) to store positive, negative and remaining utility. Some threshold raising strategies and pruning strategies are tried to reduce the space of data. In the last part, we conduct some experiments on both real-life and synthetic datasets and compare the effectiveness and efficiency of algorithms.   
 
 # ABBREVIATIONS
 
@@ -28,52 +28,70 @@ Utility-driven data mining is an emergent intelligent technique and the techniqu
 
 ## 1.1 Data intelligence
 
-we give a short detail about data intelligence. In an easy way, data intelligence is the interaction and analysis data and utilize them to making decisions and strategy. It is crucial which supports human being to discover hidden and useful information from a lot of formations of rich data. 
+we give a short detail about data intelligence. In an easy way, data intelligence is the interaction and analysis data and utilize them for making decisions and strategy. It is crucial for human being to discover hidden and useful information from a lot of formations of rich data. 
 
-Including some stages like data collection stage, processing stage  where organize data on suitable way, data analysis stage and data visualization. In advance, data intelligence show how dataset from a variety of sources being extracted and become a useful technique in the era of big data. 
+Including some stages like data collection stage, processing stage for organizing data in suitable way, data analysis stage and data visualization. In advance, data intelligence show how dataset from a variety of sources being extracted and become a useful technique in the era of big data. 
 
 ## 1.2 Pattern Mining
 
-Nowadays, data mining algorithms has been developed a lot and one of the most basic field of the data mining is pattern mining. Which focus on searching and identifying patterns, rules and structures of datasets. 
+Nowadays, data mining algorithms has been developed a lot and one of the most basic field in the data mining is pattern mining. Which focus on searching and identifying patterns, rules and structures of datasets. 
 
-In pattern mining, there many ways to uncover hidden information, like we want to solve itemsets that appear frequently together on database, trying frequent pattern mining and association rule mining. For identifying patterns occur in a specific sequence over time, it is sequential pattern mining. Finding patterns in spatial data to identify areas with high crime rates in a city with spatial pattern mining. 
+In pattern mining, there many ways to uncover hidden information, like we want to solve itemsets that appear frequently together in database, trying frequent pattern mining and association rule mining. For identifying patterns occur in a specific sequence over time, it is sequential pattern mining. Finding patterns in spatial data to identify areas with high crime rates in a city with spatial pattern mining. 
 
-## 1.3 Utility-Driven mining And Utility-Driven Mining Framework
+## 1.3 Frequent Itemset Mining
 
-### 1.3.1 What is utility-driven data mining?
+The goals of data mining uncover patterns or train models from databases and various types of data mining algorithms have been proposed to analyze data. Many level algorithms have been designed in the early . The study on pattern mining algorithms has started in the 1990s with algorithms to discover frequent patterns in databases. The first algorithm for frequent pattern mining (FPM) is Apriori and utilize to find out frequent itemsets by measuring the frequency or support from  in customer transaction databases. 
 
-utility-driven mining is a field of data mining and one of branches of pattern mining, can call it utility pattern mining. The process of data mining of utility-driven data mining focus on the useful value like profit and how to optimize the real-life value or benefit derived from the mined data patterns. 
+A transaction database is a set of records that indicate the items purchased by customers in different times. And in these records, a frequent item set is a group of items that is frequently bought by customer and the item set must be into transactions of a transactional database. 
 
-### 1.3.2 Utility-Driven Mining Framework
+Give it an example, in a transactional database, we have three item respectively: cake, egg, milk. A frequent itemset in these transactions may be that cake and milk, these are suitable for breakfast and many customers buy both, it can appear 1000 times in 1500 transactions  of transactional database. All these conditions, we call it the pattern {cake, mike} is a frequent itemset. Based on the analysis, the business can make decisions to raise the profit by promoting and launching marketing mike with cake or cake should buy with milk. All in all,  the addressing and uncovering of frequent itemsets is a well-studied data mining task in numerous domains. 
 
-Utility-Driven Mining Framework is a concept to figure out patterns from datasets based on profit, how it important or states call Utility Criteria and it provide more value on business or science. 
+The problem of FPM is insufficient because item may be not equal in the final analysis and it also has its state like profit, cost, risk, weight. Finding a valuable pattern from a lot of records by only relying on a number of item’s frequency may be not uninteresting even it has high frequency. It just shows a purchase behavior of customers but not indicates an accurate value of an item, and may yield a low profit. Explanation depth into, if in the transactional database, several patterns such as {cigarette, wine}, {cup, wine} and so on, may be the frequencies of these patterns low, but the values from these patterns is higher than the value of the above frequent pattern. So, we can see it, an interesting patterns in data and can be considered a high-profit itemset. 
 
-### 1.3.3 High-Utility Itemset Mining
+The limitations is that many frequent patterns are not interesting and valuable. And quantities of items in transactions must be zero and one, can not handle where items can have non binary quantities transactions. And after final analysis, all items are considered as equally important, example, in frequent pattern mining, diamond and silver have the same weight, but both values of the items are not the same. 
 
-One of the example of Utility-Driven Mining Framework is High-Utility Itemset Mining (HUIM). The algorithm find itemsets with high utility rather than just how many times an item appear. The utility value can be determined by an utility method, which often includes factors like profit, cost, risk, weight, or other metrics meaningful to the user or specific application. 
+The problem of FPM generalized high-utility itemset mining, where items in transactional database can appear a lot of times but their values have deviation.  The goal is to find patterns that give a high profit like {cigarette, wine} is a pattern that generate a high profit, even though it is rare. 
 
-Utility is a useful value of an item such as profit, money, weight or some states. And High Utility means high importance or a high unit profit. For example, in a transaction, it have inside some objects or items, them provide the unit utility call external utility and quantity call internal utility, and the utility of a item will be the product of external and internal utility of a specified transaction. And the utility of an itemset will be the total utility of all items in the same transaction.
+## 1.4 Utility-Driven mining And Utility-Driven Mining Framework
 
-For marking which utility is a high-utility, the minimum utility threshold is provided. And the derived utility value (The utility of an itemset) is greater than the minimum utility threshold, we can infer the itemset is the high-utility itemset.  
+### 1.4.1 What is utility-driven data mining?
 
-### 1.3.4 High-utility Itemset Mining with Top-K and Negative and Positive value
+utility-driven mining is a field in data mining and one of branches of pattern mining, can call it utility pattern mining. The process of data mining in utility-driven data mining focus on the useful value like profit and how to optimize the real-life value or benefit derived from the mined data patterns. 
 
-In the development of HUIM, addressing and returning a huge list of high-utility value which is higher than the minimum utility threshold and when we want to reduce these value, it is a hard task, user must set a proper minimum utility threshold . We will handle it problem by combining HUIM with Top-K algorithm to find the K number of high-utility itemsets in the input stream. Besides, in real-life, Our data is the cooperating between positive and negative values, thus, we present a flexible algorithm at mining top-k high utility itemsets from transactional databases. It actually works with both negative and positive utility values.  
+### 1.4.2 Utility-Driven Mining Framework
+
+Utility-Driven Mining Framework is a concept to figure out patterns from datasets based on profit, how it important or states call Utility Criteria and it provide more value in business or science. 
+
+### 1.4.3 High-Utility Itemset Mining
+
+One of the example of Utility-Driven Mining Framework is High-Utility Itemset Mining (HUIM). The algorithm find itemsets with high utility rather than just how many times an item appear. The utility value can be determined by a utility function, which often includes factors like profit, cost, risk, weight, or other metrics meaningful to the user or specific application. 
+
+Utility is a useful value of an item such as profit, money, weight or some states. And High Utility means high importance or a high unit profit. For example, in a transaction, it have inside some objects or items, them provide the unit utility call external utility and quantity call internal utility, and the utility of a item will be the product of external and internal utility in a specified transaction. And the utility of an itemset will be the total utility of all items in the same transaction.
+
+For marking which utility is a high-utility, the minimum utility threshold is provided. And the derived utility values (The utility of itemsets) are greater than the minimum utility threshold, we can infer these itemsets is the high-utility itemsets (HUIs).  
+
+Up to now, a large number f algorithms of utility mining have been proposed, the well-known Two-Phase algorithm, firstly finding the upper bound on the utility of itemsets and then reducing most of unqualified itemsets without further calculating their supersets. Some other tree-based, list-based utility mining algorithms, such as UP-growth, HUI-Miner, and CoUPM for dealing with mining task. 
+
+### 1.4.4 High-utility Itemset Mining with Top-K and Negative and Positive value
+
+In the development of HUIM, addressing and returning a huge list of high-utility value which is higher than the minimum utility threshold and if we want to reduce these value, it is a hard task, user must set a proper minimum utility threshold . We will handle it problem by combining HUIM with Top-K algorithm to find the K number of high-utility itemsets in the input stream. The TKU, TKO, kHMC, THUI and several algorithms have been proposed and they can overcome the overwhelming amount of results typically returned by traditional HUIM algorithms.
+
+Besides, in real-life, our data is the cooperating between positive and negative values, thus, we present a flexible algorithm at mining top-k high utility itemsets from transactional databases. It actually works with both negative and positive utility values.  
 
 Moreover, to avoid the amount of access to the database with leading to O(n^2) or O(2^n) time complexity, we add a vertical structure named positive-and-negative utility-list (PNU-List), several minimum threshold raising strategies, such as RIU, RTU and RUC to quickly raise the minimum utility and several pruning strategies for reducing searching space from a wide datasets. 
 
-# RELATED WORK
+# 2. RELATED WORK
 
-## Frequent Itemset Mining And The Problem
+In this part, it consists of five areas. First, we introduce the basic pattern mining, that is frequent itemset mining, show some details and its problem and how it is generalized as high utility itemset mining. In the next one, we give some issues and reasons high-utility itemset mining set Top-K algorithm and finally, how it works in advance to negative and positive utility.  
 
-## High Utility Itemset Mining (HUIM)
+## 2.1 High Utility Itemset Mining (HUIM)
 
-## High Utility Itemset Mining Using Top-K setting
+## 2.2 High Utility Itemset Mining Using Top-K setting
 
-## High Utility Pattern Mining with Negative Utility
+## 2.3 High Utility Pattern Mining with Negative Utility
 
-# PRELIMINARIES AND PROBLEM DEFINITIONS
+# 3 PRELIMINARIES AND PROBLEM DEFINITIONS
 
-# METHOD
+# 4 METHOD
 
-# SOLUTION
+# 5 SOLUTION
