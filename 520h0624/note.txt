@@ -1,0 +1,12 @@
+Utility-driven mining framework
+the unit utility (external utility) 
+quantity (internal utility
+
+HUIM - high-utility itemset mining algorithm
+HUIs - high-utility itemsets
+THUI - top-k high-utility itemsets mining
+TopHUI - top k high-utility itemsets mining with negative utility. 
+PNU list - positive and negative utility-list
+FPM - frequent pattern mining
+RTWU - redefined transaction weighted utilization
+PNU-list based on FHN algorithm [35]
